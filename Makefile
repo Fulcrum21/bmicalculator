@@ -1,20 +1,20 @@
 CC=clang
 WINCC=x86_64-w64-mingw32-gcc
 BIN=bmi
-LIBS=$(shell pkg-config --libs gtk+-3.0)
-CPPFLAGS=$(shell pkg-config --cflags gtk+-3.0)
-CFLAGS=-g -Wall $(foreach D, $(INCLUDEDIR), -iquote $(D)) $(CPPFLAGS)
-
+SRC=main.c
+LIBS=$(shell pkg-config --libs gtk4)
+CPPFLAGS=$(shell pkg-config --cflags gtk4)
+CFLAGS=-g -Wall 
 default: $(BIN)
 
-$(BIN): main.o
-	$(CC) $(LIBS) -o $@ $^
+$(BIN): $(SRC)
+	$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ $< $(LIBS)
 
-main.o : main.c
-	$(CC) $(CFLAGS) -o $@ $^
 win: CC = $(WINCC)
 win: clean
+win: LIBS=$(shell x86_64-w64-mingw32-pkg-config --libs gtk4)
+win: CPPFLAGS=$(shell x86_64-w64-mingw32-pkg-config --cflags gtk4)
 win: $(BIN)
 
 clean:
-	rm -rf main.o bmi*
+	rm -rf bmi*
