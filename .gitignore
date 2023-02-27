@@ -1,2 +1,6 @@
 .ccls-cache
 .ccls
+*.o
+resources.c
+*.cmb
+bmi
