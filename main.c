@@ -6,6 +6,14 @@
 
 #define RESOURCEPREFIX "/org/gtk/bmicalculator/"
 #define MAXBMIBUFFER 7
+#define ACTIVATE_SIGNAL_ID 155
+
+typedef struct
+{
+	void* instance;
+	guint signal_id;
+	GQuark detail;
+} signal_data;
 
 GtkWidget* weight_entry;
 GtkWidget* height_entry;
@@ -47,11 +55,16 @@ void calculate_bmi()
 	gtk_entry_buffer_set_text(gtk_entry_get_buffer(GTK_ENTRY(bmi_entry)), bmi_str, -1);
 }
 
+void click_button()
+{
+	g_signal_emit(calculate_button, ACTIVATE_SIGNAL_ID, 0, NULL);
+}
+
 void activate(GtkApplication* app, gpointer user_data)
 {
 	GtkBuilder* builder = gtk_builder_new_from_resource(RESOURCEPREFIX "bmicalculator.ui");
 
-	GObject* window = gtk_builder_get_object(builder, "mainwindow");
+	GObject* mainwindow = gtk_builder_get_object(builder, "mainwindow");
 	weight_entry = GTK_WIDGET(gtk_builder_get_object(builder, "WeightEntry"));
 	height_entry = GTK_WIDGET(gtk_builder_get_object(builder, "HeightEntry"));
 	result_label = GTK_WIDGET(gtk_builder_get_object(builder, "BmiLabel"));
@@ -59,17 +72,21 @@ void activate(GtkApplication* app, gpointer user_data)
 	bmi_entry = GTK_WIDGET(gtk_builder_get_object(builder, "BmiEntry"));
 
 	g_signal_connect(calculate_button, "clicked", G_CALLBACK(calculate_bmi), NULL);
+	g_signal_connect(weight_entry, "activate", G_CALLBACK(click_button), NULL);
+	g_signal_connect(height_entry, "activate", G_CALLBACK(click_button), NULL);
 
 	GtkCssProvider* cssprovider = gtk_css_provider_new();
 	gtk_css_provider_load_from_resource(cssprovider, RESOURCEPREFIX "styles.css");
 
+	GObject* disclaimer_window = gtk_builder_get_object(builder, "disclaimerwindow");
+
 	gtk_style_context_add_provider_for_display(
 	    gdk_display_get_default(), GTK_STYLE_PROVIDER(cssprovider), GTK_STYLE_PROVIDER_PRIORITY_USER);
 
-	gtk_window_set_application(GTK_WINDOW(window), app);
-	gtk_window_present(GTK_WINDOW(window));
-
+	gtk_window_set_application(GTK_WINDOW(mainwindow), app);
 	g_object_unref(builder);
+	gtk_window_present(GTK_WINDOW(mainwindow));
+	gtk_window_present(GTK_WINDOW(disclaimer_window));
 }
 
 int main(int argc, char** argv)
