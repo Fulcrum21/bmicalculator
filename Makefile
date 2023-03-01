@@ -1,8 +1,8 @@
-CC=clang
+CC=gcc
 BIN=bmi
 SRC=main.c
 OBJ=main.o
-LIBS=$(shell pkg-config --libs gtk4)
+LIBS=$(shell pkg-config --libs gtk4) -lm
 CPPFLAGS=$(shell pkg-config --cflags gtk4)
 CFLAGS=-g -Wall 
 default: $(BIN)

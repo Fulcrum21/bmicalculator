@@ -2,10 +2,16 @@
     font-size: 28px;
     font-weight: bold;
 }
+.entry {
+    font-size:16px;
+}
 .MeasurementLabels {
     font-size: 20px;
     font-weight:normal;
 }
 #CalcButton label {
     font-size: 18px;
+}
+#ResultLabel {
+    font-size:20px;
 }

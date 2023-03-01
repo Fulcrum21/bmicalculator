@@ -3,29 +3,6 @@
 <interface>
   <!-- interface-name bmicalculator.ui -->
   <requires lib="gtk" version="4.6"/>
-  <object class="GtkWindow" id="disclaimerwindow">
-    <property name="default-height">100</property>
-    <property name="default-width">100</property>
-    <property name="name">disclaimerwindow</property>
-    <child>
-      <object class="GtkBox">
-        <property name="orientation">vertical</property>
-        <child>
-          <object class="GtkLabel">
-            <property name="label">Disclaimer: BMI is not an accurate indicator of health, this is simple coding project and does not replace consulting a nutritionist</property>
-            <property name="wrap">True</property>
-            <property name="wrap-mode">word-char</property>
-          </object>
-        </child>
-        <child>
-          <object class="GtkButton">
-            <property name="halign">center</property>
-            <property name="label">Close</property>
-          </object>
-        </child>
-      </object>
-    </child>
-  </object>
   <object class="GtkApplicationWindow" id="mainwindow">
     <property name="css-name">mainwindow</property>
     <property name="default-height">500</property>
@@ -57,6 +34,7 @@
             </child>
             <child>
               <object class="GtkEntry" id="WeightEntry">
+                <property name="css-classes">entry</property>
                 <property name="input-purpose">number</property>
                 <property name="max-length">6</property>
                 <property name="name">WeightEntry</property>
@@ -77,6 +55,7 @@
             </child>
             <child>
               <object class="GtkEntry" id="HeightEntry">
+                <property name="css-classes">entry</property>
                 <property name="input-purpose">number</property>
                 <property name="max-length">6</property>
                 <property name="placeholder-text">e.g.:182.5</property>
@@ -112,6 +91,11 @@
                 <property name="width-chars">3</property>
               </object>
             </child>
+          </object>
+        </child>
+        <child>
+          <object class="GtkLabel" id="ResultLabel">
+            <property name="name">ResultLabel</property>
           </object>
         </child>
       </object>
